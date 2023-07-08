@@ -6,6 +6,7 @@
   (list
     ;; # ============================================================
     ;; #                         ARITHMETIC
+    ;; # ============================================================
     ;; Instruction LB
     ;; LB:
     ;; Instruction LH
@@ -26,6 +27,8 @@
     ;; ADDI:
     ;; Instruction ADD
     ;; ADD:
+    ;; Instruction LUI
+    ;; LUI:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq  IMM TMP0 (bv    1 8))
     (subleq TMP0 SRC2 (bv    1 8))
@@ -33,11 +36,7 @@
     (subleq NEXT   PC (bv  255 8))
     ;; Instruction SUB
     ;; SUB:
-    (subleq TMP0 TMP0 (bv    1 8))
-    (subleq SRC2  IMM (bv    1 8))
-    (subleq SRC2 SRC2 (bv    1 8))
-    (subleq  IMM TMP0 (bv    1 8))
-    (subleq TMP0 SRC2 (bv    1 8))
+    (subleq  IMM SRC2 (bv    1 8))
     (subleq NEXT   PC (bv  255 8))
     ;; Instruction AUIPC
     ;; AUIPC:
@@ -49,13 +48,9 @@
     (subleq  IMM TMP0 (bv    1 8))
     (subleq TMP0 SRC2 (bv    1 8))
     (subleq NEXT   PC (bv  255 8))
-    ;; Instruction LUI
-    ;; LUI:
-    (subleq TMP0 TMP0 (bv    1 8))
-    (subleq  IMM TMP0 (bv    1 8))
-    (subleq TMP0 SRC2 (bv    1 8))
-    (subleq NEXT   PC (bv  255 8))
+    ;; # ============================================================
     ;; #                         JUMPS
+    ;; # ============================================================
     ;; Instruction JAL
     ;; JAL:
     (subleq TMP0 TMP0 (bv    1 8))
@@ -72,19 +67,35 @@
     (subleq TMP1 TMP1 (bv    1 8))
     (subleq TMP2 TMP2 (bv    1 8))
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq   PC TMP0 (bv    1 8))
-    (subleq TMP0 TMP1 (bv    1 8))
-    (subleq NEXT TMP1 (bv    1 8))
-    (subleq SRC2 TMP2 (bv    1 8))
-    (subleq TMP2  IMM (bv    1 8))
+    (subleq SRC2 TMP1 (bv    1 8))
+    (subleq TMP1  IMM (bv    1 8))
+    (subleq TMP1 TMP1 (bv    1 8))
+    ;; jalr-prep:
+    (subleq WORD TMP0 (bv    1 8))
+    (subleq  INC TMP0 (bv    1 8))
+    (subleq  IMM TMP3 (bv    1 8))
+    ;; jalr-loop:
     (subleq TMP2 TMP2 (bv    1 8))
     (subleq  IMM TMP2 (bv    1 8))
+    (subleq TMP2  IMM (bv    1 8))
+    (subleq  INC TMP0 (bv   -3 8))
+    (subleq TMP0 TMP0 (bv    1 8))
+    (subleq  IMM TMP0 (bv    2 8))
+    (subleq  INC TMP3 (bv    1 8))
+    ;; jalr-fin:
+    (subleq  IMM  IMM (bv    1 8))
+    (subleq TMP3  IMM (bv    1 8))
+    (subleq  IMM TMP1 (bv    1 8))
+    (subleq NEXT   PC (bv    1 8))
+    (subleq TMP0 TMP0 (bv    1 8))
+    (subleq   PC TMP0 (bv    1 8))
     (subleq   PC   PC (bv    1 8))
-    (subleq TMP2   PC (bv    1 8))
+    (subleq TMP1   PC (bv    1 8))
     (subleq SRC2 SRC2 (bv    1 8))
-    (subleq TMP1 TMP3 (bv    1 8))
-    (subleq TMP3 SRC2 (bv  255 8))
+    (subleq TMP0 SRC2 (bv  255 8))
+    ;; # ============================================================
     ;; #                         BRANCHES
+    ;; # ============================================================
     ;; Instruction BEQ
     ;; BEQ:
     (subleq TMP0 TMP0 (bv    1 8))
@@ -120,7 +131,7 @@
     (subleq NEXT   PC (bv  255 8))
     ;; Instruction BLT
     ;; BLT:
-    (subleq SRC1 SRC2 (bv    5 8))
+    (subleq SRC2 SRC1 (bv    5 8))
     ;; blt-jump:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq TMP1 TMP1 (bv    1 8))
@@ -130,7 +141,7 @@
     (subleq NEXT   PC (bv  255 8))
     ;; Instruction BGE
     ;; BGE:
-    (subleq SRC1 SRC2 (bv    2 8))
+    (subleq SRC2 SRC1 (bv    2 8))
     ;; bge-no-jump:
     (subleq NEXT   PC (bv  255 8))
     ;; bge-jump:
@@ -155,18 +166,19 @@
     (subleq TMP4 TMP4 (bv    1 8))
     ;; bltu-check:
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq SRC2 TMP3 (bv    3 8))
-    (subleq SRC1 TMP3 (bv   10 8))
+    (subleq SRC1 TMP3 (bv    4 8))
+    (subleq TMP3 TMP3 (bv    1 8))
+    (subleq SRC2 TMP3 (bv   10 8))
     (subleq TMP3 TMP3 (bv    4 8))
     ;; bltu-srctwo-pos:
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq SRC1 TMP3 (bv    2 8))
+    (subleq SRC2 TMP3 (bv    2 8))
     (subleq TMP0 TMP0 (bv    5 8))
     ;; bltu-next-bit:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq TMP5 TMP0 (bv    3 8))
     (subleq  INC TMP5 (bv    1 8))
-    (subleq TMP0 TMP0 (bv  -17 8))
+    (subleq TMP0 TMP0 (bv  -18 8))
     ;; bltu-next-instruction:
     (subleq NEXT   PC (bv  255 8))
     ;; bltu-jump:
@@ -208,7 +220,9 @@
     ;; bgeu-jump:
     (subleq  IMM TMP0 (bv    1 8))
     (subleq TMP0   PC (bv  255 8))
+    ;; # ============================================================
     ;; #                         BIT LOGIC
+    ;; # ============================================================
     ;; Instruction XORI
     ;; XORI:
     ;; Instruction XOR
@@ -218,12 +232,12 @@
     (subleq SRC1 SRC1 (bv    1 8))
     (subleq SRC2 TMP0 (bv    1 8))
     (subleq TMP0 SRC1 (bv    1 8))
-    (subleq RSLT RSLT (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
     (subleq WORD TMP5 (bv    1 8))
     ;; xor-loop:
     (subleq TMP0 TMP0 (bv    1 8))
-    (subleq RSLT TMP0 (bv    1 8))
-    (subleq TMP0 RSLT (bv    1 8))
+    (subleq SRC2 TMP0 (bv    1 8))
+    (subleq TMP0 SRC2 (bv    1 8))
     ;; xor-get-msb-src-one:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq SRC1 TMP0 (bv    4 8))
@@ -235,7 +249,7 @@
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq  IMM TMP0 (bv    2 8))
     ;; xor-set-bit:
-    (subleq  INC RSLT (bv    1 8))
+    (subleq  INC SRC2 (bv    1 8))
     ;; xor-shift:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq SRC1 TMP0 (bv    1 8))
@@ -255,12 +269,12 @@
     (subleq SRC1 SRC1 (bv    1 8))
     (subleq SRC2 TMP0 (bv    1 8))
     (subleq TMP0 SRC1 (bv    1 8))
-    (subleq RSLT RSLT (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
     (subleq WORD TMP5 (bv    1 8))
     ;; or-loop:
     (subleq TMP0 TMP0 (bv    1 8))
-    (subleq RSLT TMP0 (bv    1 8))
-    (subleq TMP0 RSLT (bv    1 8))
+    (subleq SRC2 TMP0 (bv    1 8))
+    (subleq TMP0 SRC2 (bv    1 8))
     ;; or-get-msb-src-one:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq SRC1 TMP0 (bv    2 8))
@@ -269,7 +283,7 @@
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq  IMM TMP0 (bv    2 8))
     ;; or-set-bit:
-    (subleq  INC RSLT (bv    1 8))
+    (subleq  INC SRC2 (bv    1 8))
     ;; or-shift:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq SRC1 TMP0 (bv    1 8))
@@ -291,12 +305,12 @@
     (subleq SRC1 SRC1 (bv    1 8))
     (subleq SRC2 TMP0 (bv    1 8))
     (subleq TMP0 SRC1 (bv    1 8))
-    (subleq RSLT RSLT (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
     (subleq WORD TMP5 (bv    1 8))
     ;; and-loop:
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq RSLT TMP3 (bv    1 8))
-    (subleq TMP3 RSLT (bv    1 8))
+    (subleq SRC2 TMP3 (bv    1 8))
+    (subleq TMP3 SRC2 (bv    1 8))
     ;; and-get-msb-src-one:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq SRC1 TMP0 (bv    4 8))
@@ -304,7 +318,7 @@
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq  IMM TMP0 (bv    2 8))
     ;; and-set-bit:
-    (subleq  INC RSLT (bv    1 8))
+    (subleq  INC SRC2 (bv    1 8))
     ;; and-shift:
     (subleq TMP3 TMP3 (bv    1 8))
     (subleq SRC1 TMP3 (bv    1 8))
@@ -315,14 +329,18 @@
     (subleq  INC TMP5 (bv  -14 8))
     ;; and-clean:
     (subleq NEXT   PC (bv  255 8))
+    ;; # ============================================================
     ;; #                         SHIFTING
+    ;; # ============================================================
     ;; Instruction SLLI
     ;; SLLI:
     ;; Instruction SLL
     ;; SLL:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq TMP1 TMP1 (bv    1 8))
-    (subleq SRC1 TMP0 (bv    2 8))
+    (subleq SRC2 TMP1 (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
+    (subleq  IMM TMP0 (bv    2 8))
     ;; sll-loop:
     (subleq SRC2 TMP1 (bv    1 8))
     ;; sll-shift:
@@ -336,18 +354,26 @@
     ;; Instruction SRA
     ;; SRA:
     (subleq TMP0 TMP0 (bv    1 8))
-    (subleq SRC1 TMP0 (bv    4 8))
+    (subleq SRC1 SRC1 (bv    1 8))
+    (subleq SRC2 TMP0 (bv    5 8))
+    (subleq TMP0 SRC1 (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
     ;; sra-is-neg:
-    (subleq TMP0 TMP0 (bv    1 8))
-    (subleq  INC TMP0 (bv    1 8))
-    (subleq TMP0 RSLT (bv    1 8))
+    (subleq  ONE SRC2 (bv    1 8))
+    (subleq TMP0 TMP0 (bv    7 8))
     ;; sra-is-pos:
     ;; Instruction SRLI
     ;; SRLI:
     ;; Instruction SRL
     ;; SRL:
-    ;; srl:
+    ;; srl-setup:
     (subleq TMP0 TMP0 (bv    1 8))
+    (subleq SRC1 SRC1 (bv    1 8))
+    (subleq SRC2 TMP0 (bv    1 8))
+    (subleq TMP0 SRC1 (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
+    (subleq TMP0 TMP0 (bv    1 8))
+    ;; srl:
     (subleq TMP5 TMP5 (bv    1 8))
     (subleq WORD TMP5 (bv    1 8))
     (subleq  IMM TMP0 (bv    1 8))
@@ -357,14 +383,14 @@
     (subleq SRC1 TMP0 (bv    6 8))
     ;; srl-msb-set:
     (subleq TMP0 TMP0 (bv    1 8))
-    (subleq RSLT TMP0 (bv    1 8))
-    (subleq TMP0 RSLT (bv    1 8))
-    (subleq  INC RSLT (bv    1 8))
+    (subleq SRC2 TMP0 (bv    1 8))
+    (subleq TMP0 SRC2 (bv    1 8))
+    (subleq  INC SRC2 (bv    1 8))
     (subleq TMP0 TMP0 (bv    4 8))
     ;; srl-msb-unset:
     (subleq TMP0 TMP0 (bv    1 8))
-    (subleq RSLT TMP0 (bv    1 8))
-    (subleq TMP0 RSLT (bv    1 8))
+    (subleq SRC2 TMP0 (bv    1 8))
+    (subleq TMP0 SRC2 (bv    1 8))
     ;; srl-check-loop:
     (subleq TMP0 TMP0 (bv    1 8))
     (subleq TMP5 TMP0 (bv    6 8))
@@ -376,13 +402,15 @@
     (subleq TMP0 TMP0 (bv  -16 8))
     ;; srl-end:
     (subleq NEXT   PC (bv  255 8))
+    ;; # ============================================================
     ;; #                         SET BIT
+    ;; # ============================================================
     ;; Instruction SLTI
     ;; SLTI:
     ;; Instruction SLT
     ;; SLT:
     ;; slt-check-one:
-    (subleq SRC1 SRC2 (bv    4 8))
+    (subleq SRC2  IMM (bv    4 8))
     ;; slt-set:
     (subleq SRC2 SRC2 (bv    1 8))
     (subleq  INC SRC2 (bv    1 8))
@@ -403,21 +431,21 @@
     (subleq TMP0 TMP0 (bv    8 8))
     ;; sltu-loop:
     (subleq TMP4 TMP4 (bv    1 8))
-    (subleq SRC1 TMP4 (bv    1 8))
-    (subleq TMP4 SRC1 (bv    1 8))
-    (subleq TMP4 TMP4 (bv    1 8))
     (subleq SRC2 TMP4 (bv    1 8))
     (subleq TMP4 SRC2 (bv    1 8))
     (subleq TMP4 TMP4 (bv    1 8))
+    (subleq  IMM TMP4 (bv    1 8))
+    (subleq TMP4  IMM (bv    1 8))
+    (subleq TMP4 TMP4 (bv    1 8))
     ;; sltu-check:
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq SRC2 TMP3 (bv    4 8))
+    (subleq  IMM TMP3 (bv    4 8))
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq SRC1 TMP3 (bv   10 8))
+    (subleq SRC2 TMP3 (bv   10 8))
     (subleq TMP3 TMP3 (bv    4 8))
     ;; sltu-srctwo-pos:
     (subleq TMP3 TMP3 (bv    1 8))
-    (subleq SRC1 TMP3 (bv    2 8))
+    (subleq SRC2 TMP3 (bv    2 8))
     (subleq TMP0 TMP0 (bv    5 8))
     ;; sltu-next-bit:
     (subleq TMP0 TMP0 (bv    1 8))
@@ -425,10 +453,10 @@
     (subleq  INC TMP5 (bv    1 8))
     (subleq TMP0 TMP0 (bv  -18 8))
     ;; sltu-next-instruction:
-    (subleq RSLT RSLT (bv    3 8))
+    (subleq SRC2 SRC2 (bv    3 8))
     ;; sltu-jump:
-    (subleq RSLT RSLT (bv    1 8))
-    (subleq  INC RSLT (bv    1 8))
+    (subleq SRC2 SRC2 (bv    1 8))
+    (subleq  INC SRC2 (bv    1 8))
     ;; sltu-exit:
     (subleq NEXT   PC (bv  255 8))))
 
@@ -442,32 +470,32 @@
 (define SW-PC (bv 0 9))
 (define ADDI-PC (bv 0 9))
 (define ADD-PC (bv 0 9))
+(define LUI-PC (bv 0 9))
 (define SUB-PC (bv 4 9))
-(define AUIPC-PC (bv 10 9))
-(define LUI-PC (bv 18 9))
-(define JAL-PC (bv 22 9))
-(define JALR-PC (bv 30 9))
-(define BEQ-PC (bv 46 9))
-(define BNE-PC (bv 57 9))
-(define BLT-PC (bv 68 9))
-(define BGE-PC (bv 74 9))
-(define BLTU-PC (bv 79 9))
-(define BGEU-PC (bv 106 9))
-(define XORI-PC (bv 134 9))
-(define XOR-PC (bv 134 9))
-(define ORI-PC (bv 160 9))
-(define OR-PC (bv 160 9))
-(define ANDI-PC (bv 185 9))
-(define AND-PC (bv 185 9))
-(define SLLI-PC (bv 209 9))
-(define SLL-PC (bv 209 9))
-(define SRAI-PC (bv 217 9))
-(define SRA-PC (bv 217 9))
-(define SRLI-PC (bv 222 9))
-(define SRL-PC (bv 222 9))
-(define SLTI-PC (bv 245 9))
-(define SLT-PC (bv 245 9))
-(define SLTIU-PC (bv 251 9))
-(define SLTU-PC (bv 251 9))
+(define AUIPC-PC (bv 6 9))
+(define JAL-PC (bv 14 9))
+(define JALR-PC (bv 22 9))
+(define BEQ-PC (bv 49 9))
+(define BNE-PC (bv 60 9))
+(define BLT-PC (bv 71 9))
+(define BGE-PC (bv 77 9))
+(define BLTU-PC (bv 82 9))
+(define BGEU-PC (bv 110 9))
+(define XORI-PC (bv 138 9))
+(define XOR-PC (bv 138 9))
+(define ORI-PC (bv 164 9))
+(define OR-PC (bv 164 9))
+(define ANDI-PC (bv 189 9))
+(define AND-PC (bv 189 9))
+(define SLLI-PC (bv 213 9))
+(define SLL-PC (bv 213 9))
+(define SRAI-PC (bv 223 9))
+(define SRA-PC (bv 223 9))
+(define SRLI-PC (bv 230 9))
+(define SRL-PC (bv 230 9))
+(define SLTI-PC (bv 258 9))
+(define SLT-PC (bv 258 9))
+(define SLTIU-PC (bv 264 9))
+(define SLTU-PC (bv 264 9))
 
-(provide microcode LB-PC LH-PC LW-PC LBU-PC LHU-PC SB-PC SH-PC SW-PC ADDI-PC ADD-PC SUB-PC AUIPC-PC LUI-PC JAL-PC JALR-PC BEQ-PC BNE-PC BLT-PC BGE-PC BLTU-PC BGEU-PC XORI-PC XOR-PC ORI-PC OR-PC ANDI-PC AND-PC SLLI-PC SLL-PC SRAI-PC SRA-PC SRLI-PC SRL-PC SLTI-PC SLT-PC SLTIU-PC SLTU-PC)
+(provide microcode LB-PC LH-PC LW-PC LBU-PC LHU-PC SB-PC SH-PC SW-PC ADDI-PC ADD-PC LUI-PC SUB-PC AUIPC-PC JAL-PC JALR-PC BEQ-PC BNE-PC BLT-PC BGE-PC BLTU-PC BGEU-PC XORI-PC XOR-PC ORI-PC OR-PC ANDI-PC AND-PC SLLI-PC SLL-PC SRAI-PC SRA-PC SRLI-PC SRL-PC SLTI-PC SLT-PC SLTIU-PC SLTU-PC)
