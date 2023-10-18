@@ -120,7 +120,7 @@
  (rv-verify
   #:name "BLTU"
   #:init-pc BLTU-PC
-  #:fuel (+ 10 (* 19 XLEN))
+  #:fuel 20
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
@@ -144,7 +144,7 @@
  (rv-verify
   #:name "BGEU"
   #:init-pc BGEU-PC
-  #:fuel (+ 10 (* 19 XLEN))
+  #:fuel 20
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
@@ -167,7 +167,7 @@
  (rv-verify
   #:name "SLTIU"
   #:init-pc SLTIU-PC
-  #:fuel 200
+  #:fuel 20
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
