@@ -143,7 +143,6 @@
     (subleq TMP1 TMP1 (bv    5 8))
     ;; Instruction BLT
     ;; BLT:
-    ;; blt:
     (subleq SRC2 SRC1 (bv    4 8))
     ;; blt-jump:
     (subleq TMP0 TMP0 (bv    1 8))
@@ -163,7 +162,6 @@
     (subleq TMP1 TMP1 (bv    3 8))
     ;; Instruction BGE
     ;; BGE:
-    ;; bge:
     (subleq SRC2 SRC1 (bv    2 8))
     ;; bge-no-jump:
     (subleq NEXT   PC (bv  255 8))
