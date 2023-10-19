@@ -13,10 +13,16 @@ jobs:
           variant: 'CS'
           version: '8.10'
       - name: Installing rosette
-        run: y | raco pkg install rosette
+        run: raco pkg install --auto rosette
+      - name: Installing cmake
+        run: sudo apt install cmake
       - name: Compiling boolector
-        run: git clone https://github.com/boolector/boolector
-      - run: cd boolector
-      - run: ./contrib/setup-lingeling.sh
+        run: git clone https://github.com/boolector/boolector; cd boolector; ./contrib/setup-lingeling.sh
+      - name: Compiling Lingeling
+        run: cd boolector; ./contrib/setup-lingeling.sh
+      - name: Compiling BTOR2Tools
+        run: cd boolector; ./contrib/setup-btor2tools.sh
+      - name: Compiling Boolector
+        run: cd boolector; ./configure.sh && cd build && make && sudo make install
       - name: Testing racket-vcd
         run: racket riscv.rkt 3
