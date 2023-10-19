@@ -13,7 +13,7 @@ jobs:
           variant: 'CS'
           version: '8.10'
       - name: Installing rosette
-        run: y | raco pkg install rosette
+        run: raco pkg install --auto rosette
       - name: Compiling boolector
         run: git clone https://github.com/boolector/boolector
       - run: cd boolector
