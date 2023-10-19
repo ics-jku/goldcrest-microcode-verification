@@ -15,7 +15,7 @@ jobs:
       - name: Installing rosette
         run: raco pkg install --auto rosette
       - name: Installing cmake
-        run: sudo apt-install cmake
+        run: sudo apt install cmake
       - name: Compiling boolector
         run: git clone https://github.com/boolector/boolector; cd boolector; ./contrib/setup-lingeling.sh
       - name: Compiling Lingeling
