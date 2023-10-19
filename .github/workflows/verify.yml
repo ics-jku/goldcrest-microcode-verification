@@ -16,7 +16,7 @@ jobs:
         run: raco pkg install rosette
       - name: Compiling boolector
         run: git clone https://github.com/boolector/boolector
-        run: cd boolector
-        run: ./contrib/setup-lingeling.sh
+      - run: cd boolector
+      - run: ./contrib/setup-lingeling.sh
       - name: Testing racket-vcd
         run: racket riscv.rkt 3
