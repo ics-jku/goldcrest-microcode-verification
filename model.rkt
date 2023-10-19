@@ -11,7 +11,7 @@
 (define-syntax-rule (get-src2 code) (second code))
 (define-syntax-rule (get-jump code) (third code))
 
-(define-values (TMP0 RVPC SRC1 TMP1 SRC2 TMP2 TMP3 TMP4 IMMI TMP5 ONE WORD INC NEXT TMP6 TMP7)
+(define-values (TMP0 RVPC SRC1 TMP1 SRC2 TMP2 TMP3 TMP4 IMMI TMP5 CONE WORD INCR NEXT TMP6 TMP7)
   (values (bv 0 4) (bv 1 4) (bv 2 4) (bv 3 4)
           (bv 4 4) (bv 5 4) (bv 6 4) (bv 7 4)
           (bv 8 4) (bv 9 4) (bv 10 4) (bv 11 4)
@@ -20,6 +20,8 @@
 (define IMM IMMI)
 (define PC RVPC)
 (define TWO TMP6)
+(define ONE CONE)
+(define INC INCR)
 (define RSLT SRC2)
 
 (define-values (STEP EXIT)
@@ -64,4 +66,4 @@
                (step (- fuel 1) new-pc new-memory))]))
   (step start-fuel init-pc start-memory))
 
-(provide subleq execute memory-ref TMP0 RVPC  SRC1 TMP1 SRC2 TMP2 TMP3 TMP4 IMMI TMP5 ONE WORD INC NEXT TMP6 TMP7 STEP EXIT XLEN RSLT IMM PC TWO RSLT)
+(provide subleq execute memory-ref TMP0 RVPC  SRC1 TMP1 SRC2 TMP2 TMP3 TMP4 IMMI TMP5 ONE CONE WORD INC INCR NEXT TMP6 TMP7 STEP EXIT XLEN RSLT IMM PC TWO RSLT)

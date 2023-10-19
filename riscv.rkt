@@ -3,7 +3,8 @@
 (require "model.rkt")
 (require "util.rkt")
 (require "verify.rkt")
-(require "compliant.rkt")
+; (require "compliant.rkt")
+(require "test.rkt")
 
 (output-smt #f)
 
@@ -11,7 +12,18 @@
 (require rosette/solver/smt/cvc4)
 (require rosette/solver/smt/z3)
 
- (rv-verify
+(rv-verify
+  #:name "ADD"
+  #:init-pc ADD-PC
+  #:fuel 5
+  #:microcode microcode
+  #:solver (z3)
+  #:spec (λ (res)
+           (and (eq? (list-ref res 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (list-ref res 4) (bvadd val-src1 val-src2))))
+  #:assumptions #f)
+  
+(rv-verify
   #:name "ADDI"
   #:init-pc ADDI-PC
   #:fuel 5
