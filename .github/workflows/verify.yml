@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: CI
+name: Formal Verification
 jobs:
   build:
     name: "Build on Racket '${{ matrix.racket-version }}' (${{ matrix.racket-variant }})"
