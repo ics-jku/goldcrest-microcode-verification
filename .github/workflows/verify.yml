@@ -23,6 +23,6 @@ jobs:
       - name: Compiling BTOR2Tools
         run: cd boolector; ./contrib/setup-btor2tools.sh
       - name: Compiling Boolector
-        run: cd boolector; ./configure.sh && cd build && make && export PATH=$PATH:$(pwd)/build/bin
+        run: cd boolector; ./configure.sh && cd build && make && sudo make install
       - name: Testing racket-vcd
         run: racket riscv.rkt 3
