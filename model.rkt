@@ -62,7 +62,7 @@
            (define new-pc (if (bvsle res (bv 0 (+ 1 XLEN))) (bvadd mpc jump) (bvadd mpc STEP)))
            (define do-jump (bvslt res (bv 0 (+ 1 XLEN))))
            (if (bveq jump EXIT)
-               new-memory
+               (list new-memory (extract (- XLEN 1) 0 res))
                (step (- fuel 1) new-pc new-memory))]))
   (step start-fuel init-pc start-memory))
 

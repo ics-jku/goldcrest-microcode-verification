@@ -45,7 +45,9 @@
                                    (full-model c)))
           (define res (execute fuel microcode full-model-mem pc))     ;; execute the model with out starting values
           (for ([c test-mem]                                          ;; print all registers after execution stops
-                [v res])
-            (displayln (format "~a = ~a (~a)" c v (bitvector->natural v))))))))
+                [v (list-ref res 0)])
+            (displayln (format "~a = ~a (~a)" c v (bitvector->natural v))))
+          (displayln (format "~a" res))
+          (displayln (format "result = ~a (~a)" (list-ref res 1) (bitvector->natural (list-ref res 1))))))))
 
 (provide rv-verify val-tmp0 val-rvpc val-src1 val-tmp1 val-src2 val-tmp2 val-tmp3 val-tmp4 val-immi val-tmp5 val-one val-word val-inc val-step val-tmp6 val-tmp7)
