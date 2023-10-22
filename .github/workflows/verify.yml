@@ -25,4 +25,4 @@ jobs:
       - name: Compiling Boolector
         run: cd boolector; ./configure.sh && cd build && make && sudo make install
       - name: Testing racket-vcd
-        run: racket riscv.rkt 3
+        run: racket riscv.rkt 3 --fail-fast

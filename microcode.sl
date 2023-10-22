@@ -3,14 +3,6 @@
 #                         ARITHMETIC
 # ============================================================
 @ADD                                    
-@LB                                     
-@LH                                     
-@LW                                     
-@LBU                                    
-@LHU                                    
-@SB                                     
-@SH                                     
-@SW                                     
 @ADDI                                   
 @LUI                                    
     TMP0                                
@@ -20,7 +12,7 @@
                                         
 @SUB                                    
     NEXT RVPC                           # increment RISC-V pc
-    IMMI SRC2  END                      
+    IMMI SRC2  END 
                                         
 @AUIPC                                  
     TMP0                                
@@ -31,6 +23,22 @@
     IMMI TMP0                           
     NEXT RVPC                           
     TMP0 SRC2  END                      
+                                        
+# ============================================================
+#                         JUMPS
+# ============================================================
+@LB                                     
+@LH                                     
+@LW                                     
+@LBU                                    
+@LHU                                    
+@SB                                     
+@SH                                     
+@SW                                     
+    TMP0                                
+    IMMI TMP0                           # negate IMMI   | TMP0 - IMMI = 0 - mem[IMMI]
+    NEXT RVPC                           # increment RISC-V pc
+    TMP0 SRC1  END                      # SRC1 - -(TMP0)
                                         
 # ============================================================
 #                         JUMPS

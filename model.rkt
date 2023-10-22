@@ -24,6 +24,9 @@
 (define INC INCR)
 (define RSLT SRC2)
 
+(define-syntax-rule (verify-memory res) (list-ref res 0))
+(define-syntax-rule (verify-result res) (list-ref res 1))
+
 (define-values (STEP EXIT)
   (values (bv 1 9) (bv -1 9)))
 
@@ -66,4 +69,5 @@
                (step (- fuel 1) new-pc new-memory))]))
   (step start-fuel init-pc start-memory))
 
-(provide subleq execute memory-ref TMP0 RVPC  SRC1 TMP1 SRC2 TMP2 TMP3 TMP4 IMMI TMP5 ONE CONE WORD INC INCR NEXT TMP6 TMP7 STEP EXIT XLEN RSLT IMM PC TWO RSLT)
+(provide verify-memory verify-result subleq execute memory-ref TMP0 RVPC  SRC1 TMP1 SRC2 TMP2 TMP3 TMP4 IMMI TMP5 ONE CONE WORD INC INCR NEXT TMP6 TMP7 STEP EXIT XLEN RSLT IMM PC TWO RSLT)
+
