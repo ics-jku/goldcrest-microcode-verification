@@ -19,7 +19,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvadd val-immi val-src2))))
+                (eq? (list-ref res 1) (bvadd val-immi val-src1))))
   #:assumptions #f)
   
 (rv-verify
@@ -30,7 +30,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvadd val-immi val-src2))))
+                (eq? (list-ref res 1) (bvadd val-immi val-src1))))
   #:assumptions #f)
 
  (rv-verify
@@ -41,7 +41,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvsub val-src2 val-immi))))
+                (eq? (list-ref res 1) (bvsub val-src1 val-immi))))
   #:assumptions #f)
 
  (rv-verify
@@ -63,7 +63,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvadd val-immi val-src2))))
+                (eq? (list-ref res 1) (bvadd val-immi val-src1))))
   #:assumptions #f)
 
  (rv-verify
@@ -86,7 +86,7 @@
   #:solver (boolector)
   #:spec (λ (res)
           (and 
-			(eq? (list-ref (list-ref res 0) 1) (bvand (bvadd val-src2 val-immi) (bvnot (bv 1 XLEN))))
+			(eq? (list-ref (list-ref res 0) 1) (bvand (bvadd val-src1 val-immi) (bvnot (bv 1 XLEN))))
                (bveq (lsb (list-ref (list-ref res 0) 1)) (bv 0 1))
                ;;(eq? (bv 0 2) (extract 1 0 (list-ref (list-ref res 0) 1)))
                (eq? (list-ref res 1) (bvadd val-rvpc (bv 4 XLEN)))))
@@ -123,7 +123,7 @@
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
-           (if (bvslt val-src2 val-src1)
+           (if (bvslt val-src1 val-src2)
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc val-immi))
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))))
   #:assumptions #f)
@@ -135,7 +135,7 @@
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
-           (if (bvult val-src2 val-src1)
+           (if (bvult val-src1 val-src2)
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc val-immi))
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))))
   #:assumptions #f)
@@ -147,7 +147,7 @@
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
-           (if (bvsge val-src2 val-src1)
+           (if (bvsge val-src1 val-src2)
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc val-immi))
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))))
   #:assumptions #f)
@@ -159,7 +159,7 @@
   #:microcode microcode
   #:solver (boolector)
   #:spec (λ (res)
-           (if (bvuge val-src2 val-src1)
+           (if (bvuge val-src1 val-src2)
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc val-immi))
                (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))))
   #:assumptions #f)
@@ -172,7 +172,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (if (bvslt val-src2 val-immi) (bv 1 XLEN) (bv 0 XLEN)))))
+                (eq? (list-ref res 1) (if (bvslt val-src1 val-immi) (bv 1 XLEN) (bv 0 XLEN)))))
   #:assumptions #f)
 
  (rv-verify
@@ -183,7 +183,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (if (bvult val-src2 val-immi) (bv 1 XLEN) (bv 0 XLEN)))))
+                (eq? (list-ref res 1) (if (bvult val-src1 val-immi) (bv 1 XLEN) (bv 0 XLEN)))))
   #:assumptions #f)
 
  (rv-verify
@@ -194,7 +194,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvshl val-src2 val-immi))))
+                (eq? (list-ref res 1) (bvshl val-src1 val-immi))))
   #:assumptions (λ (mem) ;; restrict shift amount for sll/slli/srl/srli
                   (assume
                    (bvult (list-ref mem 8) (bv XLEN XLEN)))))
@@ -207,7 +207,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvlshr val-src2 val-immi))))
+                (eq? (list-ref res 1) (bvlshr val-src1 val-immi))))
   #:assumptions (λ (mem) ;; restrict shift amount for sll/slli/srl/srli
                   (assume
                    (bvult (list-ref mem 8) (bv (- XLEN 1) XLEN)))))
@@ -220,7 +220,7 @@
   #:solver (boolector)
   #:spec (λ (res)
            (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-                (eq? (list-ref res 1) (bvashr val-src2 val-immi))))
+                (eq? (list-ref res 1) (bvashr val-src1 val-immi))))
   #:assumptions (λ (mem) ;; restrict shift amount for sll/slli/srl/srli
                   (assume
                    (bvult (list-ref mem 8) (bv (- XLEN 1) XLEN)))))
@@ -233,7 +233,7 @@
  #:solver (boolector)
  #:spec (λ (res)
           (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-               (eq? (list-ref res 1) (bvxor val-src2  val-immi))))
+               (eq? (list-ref res 1) (bvxor val-src1  val-immi))))
  #:assumptions #f)
 
 (rv-verify
@@ -244,7 +244,7 @@
  #:solver (boolector)
  #:spec (λ (res)
           (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-               (eq? (list-ref res 1) (bvand val-src2 val-immi))))
+               (eq? (list-ref res 1) (bvand val-src1 val-immi))))
  #:assumptions #f)
 
 (rv-verify
@@ -255,5 +255,5 @@
  #:solver (boolector)
  #:spec (λ (res)
           (and (eq? (list-ref (list-ref res 0) 1) (bvadd val-rvpc (bv 4 XLEN)))
-               (eq? (list-ref res 1) (bvor val-src2 val-immi))))
+               (eq? (list-ref res 1) (bvor val-src1 val-immi))))
  #:assumptions #f)
