@@ -33,6 +33,94 @@
                 (eq? (list-ref res 1) (bvadd val-immi val-src1))))
   #:assumptions #f)
 
+(rv-verify
+  #:name "LB"
+  #:init-pc LB-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)  
+
+(rv-verify
+  #:name "LH"
+  #:init-pc LH-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)  
+
+(rv-verify
+  #:name "LW"
+  #:init-pc LW-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)
+
+(rv-verify
+  #:name "LBU"
+  #:init-pc LBU-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)
+
+(rv-verify
+  #:name "LHU"
+  #:init-pc LBU-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)
+
+(rv-verify
+  #:name "SB"
+  #:init-pc SB-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)
+
+(rv-verify
+  #:name "SH"
+  #:init-pc SH-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)
+
+(rv-verify
+  #:name "SW"
+  #:init-pc SW-PC
+  #:fuel 4
+  #:microcode microcode
+  #:solver (boolector)
+  #:spec (λ (res)
+           (and (eq? (list-ref (verify-memory res) 1) (bvadd val-rvpc (bv 4 XLEN)))
+                (eq? (verify-result res) (bvadd val-immi val-src1))))
+  #:assumptions #f)
+
  (rv-verify
   #:name "SUB"
   #:init-pc SUB-PC

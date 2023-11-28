@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: CI
+name: Formal Verification
 jobs:
   build:
     name: "Build on Racket '${{ matrix.racket-version }}' (${{ matrix.racket-variant }})"
@@ -25,4 +25,4 @@ jobs:
       - name: Compiling Boolector
         run: cd boolector; ./configure.sh && cd build && make && sudo make install
       - name: Testing racket-vcd
-        run: racket riscv.rkt 3
+        run: racket riscv.rkt 3 --fail-fast
